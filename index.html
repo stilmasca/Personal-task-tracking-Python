@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task Master</title>
+    <style>
+        body { font-family: sans-serif; margin: 40px; background: #f4f4f4; }
+        .content { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 10px; border-bottom: 1px solid #ddd; text-align: left; }
+        .completed { text-decoration: line-through; color: gray; }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h2>My Tasks</h2>
+        
+        <form action="/" method="POST">
+            <input type="text" name="content" id="content" placeholder="Enter a new task..." required>
+            <input type="submit" value="Add Task">
+        </form>
+
+        <table>
+            <tr>
+                <th>Task</th>
+                <th>Added</th>
+                <th>Actions</th>
+            </tr>
+            {% for task in tasks %}
+            <tr>
+                <td class="{{ 'completed' if task.completed else '' }}">{{ task.content }}</td>
+                <td>{{ task.date_created.strftime('%Y-%m-%d') }}</td>
+                <td>
+                    <a href="/update/{{task.id}}">{{ 'Undo' if task.completed else 'Done' }}</a>
+                    <a href="/delete/{{task.id}}" style="color: red;">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>
